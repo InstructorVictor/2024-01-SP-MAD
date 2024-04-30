@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <!-- 
+        This app will us the side menu paradigm
+        So it needs to be set up with the structure of
+        <ons-splitter> which wraps around the WHOLE app
+            The side menu content is inside of <ons-splitter-side>
+            The main screen content is inside of <ons-splitter-content>
+    -->
+    <ons-splitter>
+        <!-- Side menu(s). They start off closed via collapse Attribute. Each needs ID -->
+        <ons-splitter-side collapse id="menuCust">
+            <!-- The basic screen element is a variation of <ons-page> -->
+            <ons-page>
+                <ons-list-item onclick="loadPageViaMenu('homeCust.html');">Home</ons-list-item>
+                <ons-list-item onclick="loadPageViaMenu('homeCustCollection.html');">Collection</ons-list-item><!-- NEW ADD -->
+                <ons-list-item onclick="#">Contact</ons-list-item>
+                <ons-list-item onclick="loadPageViaMenu('homeCustProfile.html');">Profile</ons-list-item>
+                <ons-list-item onclick="logOut();">Log Out</ons-list-item>
+            </ons-page>
+        </ons-splitter-side>
+        <ons-splitter-side collapse id="menuAdmin">
+            <ons-page>
+                <ons-list-item>Home Admin</ons-list-item>
+                <ons-list-item onclick="loadPageViaMenu('zz.html');">Profile</ons-list-item>
+                <ons-list-item onclick="logOut();">Log Out</ons-list-item>
+            </ons-page>
+        </ons-splitter-side>
+        <ons-splitter-side collapse id="menuKids">
+            <ons-page>
+                <ons-list-item>Home Kids</ons-list-item>
+                <ons-list-item onclick="logOut();">Log Out</ons-list-item>
+            </ons-page>
+        </ons-splitter-side>
+
+        <!-- The main visible screens; you only need one! -->
+        <ons-splitter-content>
+            <!-- Set up a <ons-navigator> to be able to swap in/out a certain screen 
+                First, set it up as empty, then fill it (load up) the right screen
+                NOTE: For testing, we can set the page="welcome.html" 
+                 BUT FOR THE REAL APP, REMOVE IT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                -->
+                <ons-navigator page="" id="appNav"></ons-navigator> 
+
+                <!-- Create the Welcome screen. NOTE: not <ons-template> 🙄 -->
+                <template id="welcome.html">
+                    <ons-page id="welcome">
+                        <div class="divStyleCenter">
+                            <h1>App</h1>
+                            <p>
+                                Log in with your email/password
+                                <ons-input type="email" required placeholder="peter@parker.com" modifier="underbar" id="loginEmail"></ons-input><br>
+                                <ons-input type="password" required placeholder="CatBirdDog99!!" modifier="underbar" id="loginPassword"></ons-input><br>
+                            </p>
+                            <p>
+                                <ons-button onclick="logIn();">Login</ons-button><!-- NOT A FORM BUTTON.... -->
+                            </p>
+                            <hr style="width: 85%;">
+                            <p>Don't have an account yet? </p>
+                            <!-- 
+                                NOTE: Double-quotes for "loadPage()"
+                                      but then single-quotes for 'signup.html' (ID)
+                                -->
+                            <ons-button onclick="loadPage('signup.html');">Sign up</ons-button>
+                        </div>
+                    </ons-page>
+                </template>
+
+                <template id="signup.html">
+                    <ons-page id="signup">
+                        <!-- Set up a back button at the top -->
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-back-button></ons-back-button>
+                            </div>
+                            <div class="center">
+                                Sign Up
+                            </div>
+                        </ons-toolbar>
+                        <div class="divStyleCenter">
+                            <ons-input type="email"    modifier="underbar" placeholder="Email" id="signupEmail"></ons-input><br>
+                            <ons-input type="password" modifier="underbar" placeholder="Password" id="signupPWD"></ons-input><br>
+                            <ons-input type="password" modifier="underbar" placeholder="Confirm Password" id="signupPWDConf"></ons-input><br>
+                            Are you at least 13 years old?<br>
+                            <!-- Onsen-powered check boxes for yes/no -->
+                            <ons-radio name="signUpAge" value="true"  id="signUpAgeTrue">Yes: </ons-radio>
+                            <ons-radio name="signUpAge" value="false" id="signUpAgeFalse">No: </ons-radio>
+                            <p>
+                                <ons-button>Clear</ons-button> 
+                                <ons-button onclick="signUp();">Create</ons-button>
+                            </p>
+                        </div>
+                    </ons-page>
+                </template>
+
+            <!-- Home screen for regular customer -->
+            <template id="homeCust.html">  
+                <ons-page id="homeCust">
+                    <ons-toolbar>
+                        <div class="left">
+                            <!-- don't forget to add the <ons-toolbar-button> !!-->
+                            <ons-toolbar-button onclick="sideMenuOpen('menuCust');">
+                                <ons-icon icon="md-menu"></ons-icon>
+                            </ons-toolbar-button>
+                        </div>
+                        <div class="center">Home</div>
+                    </ons-toolbar>
+                    <div>
+                        <h2>Welcome to the app!</h2>
+                        <div>It's a work in progres, but still...</div>
+                    </div>
+                </ons-page>
+            </template>
+        
+            <template id="homeCustProfile.html">  
+                <ons-page id="homeCustProfile">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-toolbar-button onclick="sideMenuOpen('menuCust');">
+                                <ons-icon icon="md-menu"></ons-icon>
+                            </ons-toolbar-button>
+                        </div>
+                        <div class="center">Profile</div>
+                    </ons-toolbar>
+                    <div>
+                        <h2>Your profile</h2>
+                        <ons-button onclick="comicDeleteCollection();">Delete Collection</ons-button>
+                    </div>
+                </ons-page>
+            </template>
+
+            <!-- NEW SCREEN  Customer collection-->
+            <template id="homeCustCollection.html">  
+                <ons-page id="homeCustCollection">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-toolbar-button onclick="sideMenuOpen('menuCust');">
+                                <ons-icon icon="md-menu"></ons-icon>
+                            </ons-toolbar-button>
+                        </div>
+                        <div class="center" id="myCollection">Collection</div>
+                    </ons-toolbar>
+                    <div class="divMainStyle">
+                        <!-- Placeholder for comic data -->
+                        <div id="divComicTable">&nbsp;</div>
+                        <hr>
+                        <h3>Save a Comic</h3>
+                        <div class="formStyle">
+                            <ons-input type="text" required placeholder="Amazing Spider-Man" modifier="underbar" id="inputSaveTitle"></ons-input><br>
+                            <ons-input type="number" required placeholder="300" modifier="underbar" id="inputSaveNumber"></ons-input><br>
+                            <ons-input type="number" required placeholder="1988" modifier="underbar" id="inputSaveYear"></ons-input><br>
+                            <ons-input type="text" placeholder="First app of Venom" modifier="underbar" id="inputSaveComment"></ons-input><br>
+                            <ons-button>Clear</ons-button> <ons-button onclick="comicSave();">Save</ons-button> 
+                        </div>
+                    </div>
+                </ons-page>
+            </template>
+
+            <!-- A template for a popup box; note <ons-dialog> -->
+            <template id="comicDetail.html">
+                <ons-dialog id="comicDetail">
+                    <ons-toolbar>
+                        <div class="right">
+                            <ons-toolbar-button onclick="comicEditInfoClose();">
+                                <ons-icon icon="md-close"></ons-icon>
+                            </ons-toolbar-button>
+                        </div>
+                        <div class="center">Comic Info</div>
+                    </ons-toolbar>
+                    <div style="padding: 3em 2em 1em 2em;">
+                        <em>Title:</em> <ons-input type="text" required modifier="underbar" id="inputEditTitle"></ons-input><br>
+                        <em>Number:</em> <ons-input type="number" required modifier="underbar" id="inputEditNumber"></ons-input><br>
+                        <em>Year:</em> <ons-input type="number" required modifier="underbar" id="inputEditYear"></ons-input><br>
+                        <em>Note:</em> <ons-input type="text" modifier="underbar" id="inputEditComment"></ons-input><br>
+                        <ons-button onclick="comicEditDelete();">Delete</ons-button> <ons-button onclick="comicEditUpdate();">Update Comic</ons-button>
+                    </div>
+                </ons-dialog>
+            </template>
+
+            <template id="homeAdmin.html">  
+                <ons-page id="homeAdmin">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-toolbar-button onclick="sideMenuOpen('menuAdmin');">
+                                    <ons-icon icon="md-settings" spin></ons-icon>
+                            </ons-toolbar-button>
+                        </div>
+                        <div class="center">Admin Home</div>
+                    </ons-toolbar>
+                    <div>
+                        <h2>Welcome Admin</h2>
+                    </div>
+                </ons-page>
+            </template>
+        
+            <template id="homeKids.html">  
+                <ons-page id="homeKids">
+                    <ons-toolbar>
+                        <div class="left">
+                            <ons-toolbar-button onclick="sideMenuOpen('menuKids');">
+                                    <ons-icon icon="md-face"></ons-icon>
+                            </ons-toolbar-button>
+                        </div>
+                        <div class="center">Kids Home</div>
+                    </ons-toolbar>
+                    <div>
+                        <h2>Welcome kids!</h2>
+                    </div>
+                </ons-page>
+            </template>
+        </ons-splitter-content>
+
+    </ons-splitter>
+    
+    <!-- Connect to PouchDB CDN (requires online connection) -->
+    <script src="https://cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
+    <!-- To connect to our custom JS code file -->
+    <script src="maincode.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+/* Using a CLASS, we'll center the welcome.html screen */
+.divStyleCenter {
+    margin-top: 5em;
+    text-align: center;
+}
+
+/* Generic class to add some padding to a screen */
+.divMainStyle {
+    padding: 1em;
+}
+
+/* Class to center forms */
+.formStyle {
+    text-align: center;
+}
+
+/* For styling the table of comics in general */ 
+div#divComicTable table {
+    background-color: aquamarine;
+    width: 95%;
+    margin: auto;
+    border: 1px dashed red;
+    word-wrap: break-word;
+} 
+
+/* Define details of the first row */
+div#divComicTable table tr th {
+    background-color: rebeccapurple;
+    color: whitesmoke;
+ }
+
+/* Define details of a normal row */
+div#divComicTable table tr td,
+ div#divComicTable table tr th {
+    border: 2px dashed red;
+ }
+
+ /* Zebra striping to alternate colors */
+ div#divComicTable table tr:nth-of-type(even) {
+     background-color: rgba(0, 50, 200, .50);
+ }
+
+ div#divComicTable table tr:nth-of-type(odd) {
+     background-color: rgba(0, 50, 200, .25);
+ }
